@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
 
 class Login extends Component {
@@ -29,6 +31,15 @@ class Login extends Component {
         isDisable: true,
       });
     }
+  };
+
+  handleSubmit = async () => {
+    const { history } = this.props;
+    const token = await fetch('https://opentdb.com/api_token.php?command=request');
+    const tokenJson = await token.json();
+    const finalToken = tokenJson.token;
+    localStorage.setItem('token', finalToken);
+    history.push('/game');
   };
 
   render() {
@@ -62,6 +73,7 @@ class Login extends Component {
             disabled={ isDisable }
             type="button"
             data-testid="btn-play"
+            onClick={ this.handleSubmit }
           >
             Play
 
@@ -72,4 +84,10 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
+
+export default connect()(Login);
