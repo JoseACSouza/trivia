@@ -33,6 +33,11 @@ class Login extends Component {
     }
   };
 
+  handleSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
   handleSubmit = async () => {
     const { history } = this.props;
     const token = await fetch('https://opentdb.com/api_token.php?command=request');
@@ -76,7 +81,13 @@ class Login extends Component {
             onClick={ this.handleSubmit }
           >
             Play
-
+          </button>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.handleSettings }
+          >
+            Settings
           </button>
         </form>
       </header>
