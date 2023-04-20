@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
+import { nameAcess } from '../redux/actions/loginAction';
 
 class Login extends Component {
   state = {
@@ -39,11 +40,12 @@ class Login extends Component {
   };
 
   handleSubmit = async () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     const token = await fetch('https://opentdb.com/api_token.php?command=request');
     const tokenJson = await token.json();
     const finalToken = tokenJson.token;
     localStorage.setItem('token', finalToken);
+    dispatch(nameAcess(this.state));
     history.push('/game');
   };
 
