@@ -14,6 +14,7 @@ class Questions extends Component {
     correctAnswer: '',
     correct: false,
     incorrect: false,
+    enabledNextButton: false,
   };
 
   componentDidMount() {
@@ -42,6 +43,7 @@ class Questions extends Component {
     this.setState({
       correct: 'correct',
       incorrect: 'incorrect',
+      enabledNextButton: true,
     });
   };
 
@@ -58,7 +60,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { indexQuestion, isLoading, arrayQuestions,
+    const { indexQuestion, isLoading, arrayQuestions, enabledNextButton,
       arrayAnswers, correctAnswer, correct, incorrect } = this.state;
     return (
       <div>
@@ -89,6 +91,9 @@ class Questions extends Component {
               }
             </div>
           </div>) }
+        {
+          enabledNextButton && <button data-testid="btn-next" type="button">Next</button>
+        }
       </div>
     );
   }
