@@ -4,12 +4,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchQuestionsApi } from '../services/fetchAPI';
 import '../styles/Questions.css';
+import { amountHits, userScore } from '../redux/actions/gameAction';
 
 let intervalId = 0;
+const initialScore = 10;
+const points = {
+  hard: 3,
+  medium: 2,
+  easy: 1,
+};
 
 class Questions extends Component {
   state = {
     indexQuestion: 0,
+    amountAssert: 0,
     arrayQuestions: [],
     arrayAnswers: [],
     isLoading: true,
@@ -60,13 +68,34 @@ class Questions extends Component {
     }
   };
 
-  handleButtonOptions = () => {
-    this.setState({
-      correct: 'correct',
-      incorrect: 'incorrect',
-      enabledNextButton: true,
-    });
+  handleButtonOptions = ({ target }) => {
+    const { amountAssert } = this.state;
+
+    const isCorrect = target.getAttribute('data-testid').includes('correct-answer');
+
+    if (isCorrect) {
+      this.setState({
+        correct: 'correct',
+        incorrect: 'incorrect',
+        enabledNextButton: true,
+        amountAssert: amountAssert + 1,
+      }, this.countScore());
+    } else {
+      this.setState({
+        correct: 'correct',
+        incorrect: 'incorrect',
+        enabledNextButton: true,
+      });
+    }
     clearInterval(intervalId);
+  };
+
+  countScore = () => {
+    const { arrayQuestions, indexQuestion, timer } = this.state;
+    const { dispatch } = this.props;
+    const { difficulty } = arrayQuestions[indexQuestion];
+    const score = initialScore + (timer * points[difficulty]);
+    dispatch(userScore(score));
   };
 
   shuffleAnswers = () => {
@@ -82,9 +111,10 @@ class Questions extends Component {
   };
 
   handeButtonNext = () => {
-    const { indexQuestion } = this.state;
-    const { history } = this.props;
+    const { indexQuestion, amountAssert } = this.state;
+    const { history, dispatch } = this.props;
     const NUMBER = 4;
+
     this.setState({
       indexQuestion: indexQuestion + 1,
       correct: '',
@@ -94,6 +124,7 @@ class Questions extends Component {
     });
 
     if (indexQuestion >= NUMBER) {
+      dispatch(amountHits(amountAssert));
       history.push('/feedback');
     } else {
       this.fetchQuestions();
@@ -149,6 +180,7 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
+  dispatch: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func,
   }),

@@ -1,12 +1,10 @@
-import { LOGIN_ACESS, REQUEST_FETCH, REQUEST_FETCH_FAIL,
-  REQUEST_FETCH_SUCESS } from '../actions';
+import { AMOUNT_ASSERT, LOGIN_ACESS, SCORE_USER } from '../actions/index';
 
 const INITIAL_STATE = {
   name: '',
-  assertions: '',
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
-  questions: [],
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -19,23 +17,17 @@ const player = (state = INITIAL_STATE, action) => {
     };
   }
 
-  case REQUEST_FETCH_SUCESS: {
+  case AMOUNT_ASSERT: {
     return {
       ...state,
-      questions: action.payload,
+      assertions: action.payload,
     };
   }
 
-  case REQUEST_FETCH: {
+  case SCORE_USER: {
     return {
       ...state,
-    };
-  }
-
-  case REQUEST_FETCH_FAIL: {
-    return {
-      ...state,
-      error: action.payload,
+      score: state.score + action.payload,
     };
   }
 
