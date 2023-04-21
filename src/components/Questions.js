@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { fetchQuestionsApi } from '../services/fetchAPI';
+import '../styles/Questions.css';
 
 class Questions extends Component {
   state = {
@@ -11,6 +12,8 @@ class Questions extends Component {
     arrayAnswers: [],
     isLoading: true,
     correctAnswer: '',
+    correct: false,
+    incorrect: false,
   };
 
   componentDidMount() {
@@ -34,6 +37,14 @@ class Questions extends Component {
     }
   };
 
+  handleButtonOptions = () => {
+    // const { answerResponse } = this.state;
+    this.setState({
+      correct: 'correct',
+      incorrect: 'incorrect',
+    });
+  };
+
   shuffleAnswers = () => {
     const { arrayQuestions, indexQuestion } = this.state;
     const NUMBER = 0.5;
@@ -48,7 +59,7 @@ class Questions extends Component {
 
   render() {
     const { indexQuestion, isLoading, arrayQuestions,
-      arrayAnswers, correctAnswer } = this.state;
+      arrayAnswers, correctAnswer, correct, incorrect } = this.state;
     return (
       <div>
         {/* { (isLoading) ? <p>Carregando...</p>
@@ -65,6 +76,10 @@ class Questions extends Component {
               {
                 arrayAnswers.map((answer, index) => (
                   <button
+                    type="button"
+                    onClick={ this.handleButtonOptions }
+                    className={ answer === correctAnswer ? `${correct}`
+                      : `${incorrect}` }
                     data-testid={ answer === correctAnswer ? 'correct-answer'
                       : `wrong-answer-${index}` }
                     key={ answer }
