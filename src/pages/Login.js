@@ -41,6 +41,7 @@ class Login extends Component {
 
   handleSubmit = async () => {
     const { history, dispatch } = this.props;
+
     const token = await fetch('https://opentdb.com/api_token.php?command=request');
     const tokenJson = await token.json();
     const finalToken = tokenJson.token;
