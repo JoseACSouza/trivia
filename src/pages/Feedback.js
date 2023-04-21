@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends Component {
-  handleGameRestart = () => {
+  handleRestart = () => {
     const { history } = this.props;
     history.push('/');
+  };
+
+  handleButtonRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
   };
 
   render() {
@@ -23,9 +28,16 @@ class Feedback extends Component {
         <button
           data-testid="btn-play-again"
           type="button"
-          onClick={ this.handleGameRestart }
+          onClick={ this.handleRestart }
         >
           Play Again
+        </button>
+        <button
+          data-testid="btn-ranking"
+          onClick={ this.handleButtonRanking }
+          type="button"
+        >
+          Ranking
         </button>
       </div>
     );
