@@ -60,8 +60,7 @@ describe('Testes da página de Login', () => {
       }),
     }));
 
-    const initialEntries = ['/'];
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries });
+    const { history } = renderWithRouterAndRedux(<App />);
     expect(history.location.pathname).toBe('/');
 
     const nome = screen.getByRole('textbox', {
@@ -90,8 +89,7 @@ describe('Testes da página de Login', () => {
   });
 
   test('Verifique se o botão Settings é renderizado na tela e se ao clicar nele é redirecionado para a página Settings"', () => {
-    const initialEntries = ['/'];
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries });
+    const { history } = renderWithRouterAndRedux(<App />);
     expect(history.location.pathname).toBe('/');
 
     const button = screen.getByRole('button', {
