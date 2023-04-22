@@ -1,4 +1,4 @@
-import { AMOUNT_ASSERT, LOGIN_ACESS, SCORE_USER } from '../actions/index';
+import { AMOUNT_ASSERT, LOGIN_ACESS, RESET_SCORE, SCORE_USER } from '../actions/index';
 
 const INITIAL_STATE = {
   name: '',
@@ -28,6 +28,16 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: state.score + action.payload,
+    };
+  }
+
+  case RESET_SCORE: {
+    return {
+      ...state,
+      name: '',
+      score: 0,
+      assertions: 0,
+      gravatarEmail: '',
     };
   }
 
