@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import { nameAcess } from '../redux/actions/loginAction';
+import { resetScore } from '../redux/actions/gameAction';
 
 class Login extends Component {
   state = {
@@ -10,6 +11,11 @@ class Login extends Component {
     email: '',
     isDisable: true,
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(resetScore());
+  }
 
   handleChange = ({ target }) => {
     const { name, value } = target;
@@ -102,6 +108,7 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
+  dispatch: PropTypes.func,
 }.isRequired;
 
 export default connect()(Login);

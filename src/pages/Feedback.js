@@ -2,21 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MD5 } from 'crypto-js';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
-import { addPlayer, resetScore } from '../redux/actions/gameAction';
+import { addPlayer } from '../redux/actions/gameAction';
 
 class Feedback extends Component {
-  handleRestart = () => {
-    const { history, dispatch } = this.props;
-    dispatch(resetScore());
-    history.push('/');
-  };
-
-  handleButtonRanking = () => {
-    const { history } = this.props;
-    history.push('/ranking');
-  };
-
   render() {
     const { assertions, score, name, gravatarEmail, dispatch } = this.props;
     const NUMBER = 3;
@@ -35,7 +25,8 @@ class Feedback extends Component {
     };
 
     const listPlayers = [...currentStorage, savedPlayer];
-    localStorage.setItem('ranking', JSON.stringify(listPlayers));
+    const lisPlayersOrder = listPlayers.sort((a, b) => b.score - a.score);
+    localStorage.setItem('ranking', JSON.stringify(lisPlayersOrder));
     dispatch(addPlayer(savedPlayer));
 
     return (
@@ -46,20 +37,23 @@ class Feedback extends Component {
         { (assertions < NUMBER)
           ? <p data-testid="feedback-text">Could be better...</p>
           : <p data-testid="feedback-text">Well Done!</p> }
-        <button
-          data-testid="btn-play-again"
-          type="button"
-          onClick={ this.handleRestart }
-        >
-          Play Again
-        </button>
-        <button
-          data-testid="btn-ranking"
-          onClick={ this.handleButtonRanking }
-          type="button"
-        >
-          Ranking
-        </button>
+
+        <Link to="/">
+          <button
+            data-testid="btn-play-again"
+            type="button"
+          >
+            Play Again
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button
+            data-testid="btn-ranking"
+            type="button"
+          >
+            Ranking
+          </button>
+        </Link>
       </div>
     );
   }
