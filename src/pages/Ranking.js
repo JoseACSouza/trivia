@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { resetScore } from '../redux/actions/gameAction';
+import { Link } from 'react-router-dom';
 
 class Ranking extends Component {
   state = {
@@ -9,40 +9,36 @@ class Ranking extends Component {
   };
 
   componentDidMount() {
-    const getLocalStorage = JSON.parse(localStorage.getItem('ranking'));
-    const listPlayers = getLocalStorage.sort((a, b) => b.score - a.score);
+    const listPlayers = JSON.parse(localStorage.getItem('ranking'));
     this.setState({ listPlayers });
   }
-
-  handleButtonHome = () => {
-    const { history, dispatch } = this.props;
-    dispatch(resetScore());
-    history.push('/');
-  };
 
   render() {
     const { listPlayers } = this.state;
     return (
       <div>
         <h2 data-testid="ranking-title">Ranking</h2>
-        { listPlayers.length > 0 && listPlayers
-          .map((player, index) => (
-            <div key={ index }>
-              <img
-                alt="Avatar do usuário"
-                src={ player.gravatarEmail }
-              />
-              <p data-testid={ `player-score-${index}` }>{ player.score }</p>
-              <p data-testid={ `player-name-${index}` }>{ player.name }</p>
-            </div>
-          ))}
-        <button
-          onClick={ this.handleButtonHome }
-          data-testid="btn-go-home"
-          type="button"
-        >
-          Go Home
-        </button>
+        {
+          listPlayers
+            .map((player, index) => (
+              <div key={ index }>
+                <img
+                  alt="avatar"
+                  src={ player.gravatarEmail }
+                />
+                <p data-testid={ `player-score-${index}` }>{ player.score }</p>
+                <p data-testid={ `player-name-${index}` }>{ player.name }</p>
+              </div>
+            ))
+        }
+        <Link to="/">
+          <button
+            data-testid="btn-go-home"
+            type="button"
+          >
+            Go Home
+          </button>
+        </Link>
       </div>
     );
   }

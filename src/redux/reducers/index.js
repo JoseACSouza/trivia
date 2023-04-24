@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import player from './player';
-import ranking from './ranking';
+import listRanking from './listRanking';
 
-const rootReducer = combineReducers({ player, ranking });
+const rootReducer = combineReducers({ player, listRanking });
 
 export default rootReducer;

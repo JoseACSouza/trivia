@@ -43,7 +43,7 @@ describe('Testes da página de Feedback', () => {
     expect(history.location.pathname).toBe('/');
   });
 
-  test('Verifique se o botão Ranking é renderizado na tela e se ao clicar nele é redirecionado para a página Ranking"', () => {
+  test('Verifique se o botão Ranking é renderizado na tela e se ao clicar nele é redirecionado para a página Ranking"', async () => {
     const { history } = renderWithRouterAndRedux(<Feedback />);
 
     const button = screen.getByRole('button', {
@@ -53,7 +53,11 @@ describe('Testes da página de Feedback', () => {
     expect(button).toBeInTheDocument();
 
     userEvent.click(button);
-    expect(history.location.pathname).toBe('/ranking');
+
+    await waitFor(() => { 
+      expect(history.location.pathname).toBe('/ranking');
+    })
+
   });
  
 })

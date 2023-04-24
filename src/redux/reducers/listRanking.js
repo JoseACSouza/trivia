@@ -1,15 +1,15 @@
 import { ADD_PLAYER } from '../actions';
 
 const INITIAL_STATE = {
-  players: [],
+  list: [],
 };
 
-const ranking = (state = INITIAL_STATE, action) => {
+const listRanking = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case ADD_PLAYER:
     return {
       ...state,
-      players: [...state.players, action.payload],
+      list: [...state.list, action.payload],
     };
 
   default:
@@ -17,4 +17,4 @@ const ranking = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default ranking;
+export default listRanking;
