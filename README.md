@@ -1,4 +1,4 @@
-# Trivia
+# Trivia 💡
 Jogo de Trivia, desenvolvido por nós.
 <!-- Olá, Tryber!
 Esse é apenas um arquivo inicial para o README do seu projeto.
